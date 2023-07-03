@@ -12,8 +12,8 @@ class InterfaceHome:
                                 pad=(0, (30, 0)))]
 
         main = [
-            [sg.Input("30 min", key="input_usuario", pad=(30, (45, 0)), size=(7, 5), font="Inter 12 bold",
-                      disabled=True, border_width=0, background_color=self.background_color,
+            [sg.Input("0 min", key="input_usuario", pad=(30, (45, 0)), size=(7, 5), font="Inter 12 bold",
+                        border_width=0, background_color=self.background_color,
                       disabled_readonly_background_color=self.background_color),
 
              sg.Image(filename="dependency//img//chevron-up-24.png", background_color=self.background_color,
@@ -33,9 +33,10 @@ class InterfaceHome:
         layout = [header_imagem, main, rodape]
         window = sg.Window("Sessão de foco", layout=layout, size=(272, 442), margins=(0, 0), grab_anywhere=True,
                            element_justification='c', icon="dependency//img//ico.ico")
-        count = 30
-        while True:
 
+        count = 0
+
+        while True:
             event, values = window.read(timeout=1)
 
             if event == sg.WIN_CLOSED:
