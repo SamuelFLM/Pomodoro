@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-
+import pyautogui as bot
 
 class InterfaceHome:
 
@@ -33,7 +33,7 @@ class InterfaceHome:
         layout = [header_imagem, main, rodape]
         window = sg.Window("Sessão de foco", layout=layout, size=(272, 442), margins=(0, 0), grab_anywhere=True,
                            element_justification='c', icon="dependency//img//ico.ico")
-        contador = 30
+        count = 30
         while True:
 
             event, values = window.read(timeout=1)
@@ -41,16 +41,18 @@ class InterfaceHome:
             if event == sg.WIN_CLOSED:
                 break
 
-            if event == "iniciar_sessao_de_foco":
-                print("1")
+            if event == "iniciar_sessao_de_foco" and count == 0:
+                bot.confirm(title="Aviso", text="Time nâo pode ser 0", buttons=["OK"])
 
             if event == "aumenta_time":
-                contador += 1
-                window["input_usuario"].update(f"{contador} min")
+                count += 1
+                window["input_usuario"].update(f"{count} min")
+
             if event == "diminui_time":
-                if contador >= 0:
-                    contador -= 1
-                    window["input_usuario"].update(f"{contador} min")
+                if count != 0:
+                    count -= 1
+                    window["input_usuario"].update(f"{count} min")
+
 
 if __name__ == "__main__":
     home = InterfaceHome()
