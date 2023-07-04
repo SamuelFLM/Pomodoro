@@ -1,5 +1,7 @@
 import PySimpleGUI as sg
 import pyautogui as bot
+from interface_pomodoro import InterfacePomodoro
+
 
 class InterfaceHome:
 
@@ -12,17 +14,16 @@ class InterfaceHome:
                                 pad=(0, (30, 0)))]
 
         main = [
-            [sg.Input("0 min", key="input_usuario", pad=(30, (45, 0)), size=(7, 5), font="Inter 12 bold",
-                        border_width=0, background_color=self.background_color,
+            [sg.Input(default_text="", key="input_usuario", pad=(30, (45, 0)), size=(7, 5), font="Inter 12 bold",
+                        disabled=True,border_width=0, background_color=self.background_color,justification='c',
                       disabled_readonly_background_color=self.background_color),
 
-             sg.Image(filename="dependency//img//chevron-up-24.png", background_color=self.background_color,
-                      pad=(30, (45, 0)), enable_events=True, key="aumenta_time"),
+            sg.Image(filename="dependency//img//chevron-up-24.png", background_color=self.background_color,
+                     pad=(30, (45, 0)), enable_events=True, key="aumenta_time"),
 
-             sg.Image(filename="dependency//img//chevron-down-24.png", background_color=self.background_color,
-                      pad=(0, (45, 0)), enable_events=True, key="diminui_time"),
+            sg.Image(filename="dependency//img//chevron-down-24.png", background_color=self.background_color,
+                     pad=(0, (45, 0)), enable_events=True, key="diminui_time"),],
 
-             ],
             [sg.HSep(pad=(20, (5, 0)), color="black")],
         ]
 
@@ -32,18 +33,24 @@ class InterfaceHome:
 
         layout = [header_imagem, main, rodape]
         window = sg.Window("Sessão de foco", layout=layout, size=(272, 442), margins=(0, 0), grab_anywhere=True,
-                           element_justification='c', icon="dependency//img//ico.ico")
-
-        count = 0
-
+                           element_justification='c', icon="dependency//img//ico.ico", finalize=True)
+        count = 30
+        window["input_usuario"].update(f"30 min")
         while True:
             event, values = window.read(timeout=1)
 
             if event == sg.WIN_CLOSED:
                 break
 
-            if event == "iniciar_sessao_de_foco" and count == 0:
+
+            if event == "iniciar_sessao_de_foco" and int(count) == 0:
                 bot.confirm(title="Aviso", text="Time nâo pode ser 0", buttons=["OK"])
+
+            if event == "iniciar_sessao_de_foco" and int(count) >= 1:
+                window.close()
+                interface = InterfacePomodoro(InterfaceHome)
+                interface.pomodoro(minutos=int(count))
+                break
 
             if event == "aumenta_time":
                 count += 1
@@ -53,7 +60,6 @@ class InterfaceHome:
                 if count != 0:
                     count -= 1
                     window["input_usuario"].update(f"{count} min")
-
 
 if __name__ == "__main__":
     home = InterfaceHome()
