@@ -1,6 +1,7 @@
 import threading
 import time
 import PySimpleGUI as sg
+import pyautogui as bot
 
 class InterfacePomodoro:
     def __init__(self, home):
@@ -22,6 +23,7 @@ class InterfacePomodoro:
             time.sleep(1)
         else:
             self.window['time'].update("Tempo esgotado!")
+            bot.confirm(title="Tempo esgotado!", text="Time Finalizado", buttons=["OK"])
 
     def pomodoro(self, minutos):
         header = [sg.Image(filename="dependency/img/logo_min.png", background_color=self.background_color,

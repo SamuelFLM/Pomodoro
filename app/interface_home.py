@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import pyautogui as bot
-from interface_pomodoro import InterfacePomodoro
+from app.interface_pomodoro import InterfacePomodoro
 
 
 class InterfaceHome:
